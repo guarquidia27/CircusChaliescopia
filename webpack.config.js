@@ -7,12 +7,9 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        clean: true
+        clean: true,
     },
-    devServer: {
-        static: './dist',
-        port: 9000
-    },
+    mode: 'development',
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html'
@@ -23,6 +20,17 @@ module.exports = {
             ]
         })
     ],
-    mode: 'development',
-    devtool: 'source-map'
+    devServer: {
+        static: './dist',
+        port: 9000,
+        open: true
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            }
+        ]
+    }
 };
