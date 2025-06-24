@@ -20,10 +20,19 @@ loader
 let charlie;
 let music;
 let keys = {};
+let currentStage = 1;
+let background;
+let stageTextures = {};
+let message;
 
 function setup(loader, resources) {
-    // Fondo (stage01 por defecto)
-    const background = new PIXI.Sprite(resources.stage01.texture);
+    stageTextures = {
+        stage01: resources.stage01.texture,
+        stage02: resources.stage02.texture
+    };
+
+    // Fondo inicial
+    background = new PIXI.Sprite(stageTextures.stage01);
     background.anchor.set(0.5);
     background.x = app.screen.width / 2;
     background.y = app.screen.height / 2;
@@ -37,7 +46,19 @@ function setup(loader, resources) {
     charlie.scale.set(2);
     app.stage.addChild(charlie);
 
-    // Música de fondo
+    // Texto en pantalla
+    const style = new PIXI.TextStyle({
+        fontFamily: 'Arial',
+        fontSize: 24,
+        fill: '#ffffff'
+    });
+    message = new PIXI.Text('Presiona Enter para cambiar stage', style);
+    message.anchor.set(0.5);
+    message.x = app.screen.width / 2;
+    message.y = 50;
+    app.stage.addChild(message);
+
+    // Música
     music = new Audio(resources.music.url);
     music.loop = true;
     music.volume = 0.5;
@@ -93,5 +114,12 @@ function gameLoop(delta) {
             }
         };
         jump();
+    }
+
+    // Cambiar stage con Enter
+    if (keys["Enter"]) {
+        keys["Enter"] = false; // para que no repita
+        currentStage = currentStage === 1 ? 2 : 1;
+        background.texture = currentStage === 1 ? stageTextures.stage01 : stageTextures.stage02;
     }
 }
