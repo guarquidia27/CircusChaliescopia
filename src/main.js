@@ -12,6 +12,7 @@ const loader = PIXI.Loader.shared;
 
 loader
     .add('background', 'assets/images/background.png')
+    .add('stage01', 'assets/images/stage01')
     .add('charlie', 'assets/images/CircusCharlieSheet1.gif')
     .add('music', 'assets/audio/stage1-4.mp3')
     .load(setup);
