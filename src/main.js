@@ -24,7 +24,7 @@ let keys = {};
 
 function setup(loader, resources) {
     // Fondo
-    const background = new PIXI.Sprite(resources.background.texture);
+    const background = new PIXI.Sprite(resources.stage01.texture);
     background.anchor.set(0.5);
     background.x = app.screen.width / 2;
     background.y = app.screen.height / 2;
