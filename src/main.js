@@ -11,7 +11,6 @@ document.body.appendChild(app.view);
 const loader = PIXI.Loader.shared;
 
 loader
-    .add('background', 'assets/images/background.png')
     .add('stage01', 'assets/images/stage01.png')
     .add('stage02', 'assets/images/stage02.png')
     .add('charlie', 'assets/images/CircusCharlieSheet1.gif')
@@ -23,7 +22,7 @@ let music;
 let keys = {};
 
 function setup(loader, resources) {
-    // Fondo
+    // Fondo (stage01 por defecto)
     const background = new PIXI.Sprite(resources.stage01.texture);
     background.anchor.set(0.5);
     background.x = app.screen.width / 2;
@@ -35,7 +34,7 @@ function setup(loader, resources) {
     charlie.anchor.set(0.5, 0.5);
     charlie.x = app.screen.width / 2;
     charlie.y = app.screen.height - 100;
-    charlie.scale.set(2); // Escala un poco el sprite
+    charlie.scale.set(2);
     app.stage.addChild(charlie);
 
     // Música de fondo
@@ -44,11 +43,10 @@ function setup(loader, resources) {
     music.volume = 0.5;
     music.play();
 
-    // Eventos de teclado
+    // Teclado
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
 
-    // Game loop
     app.ticker.add(gameLoop);
 }
 
@@ -69,20 +67,19 @@ function gameLoop(delta) {
     if (keys["ArrowRight"]) {
         charlie.x += speed;
     }
+
     if (keys["Space"] && charlie.isJumping !== true) {
         charlie.isJumping = true;
         let jumpHeight = 150;
         let jumpSpeed = 5;
         let initialY = charlie.y;
 
-        // Simular salto
         const jump = () => {
             if (jumpHeight > 0) {
                 charlie.y -= jumpSpeed;
                 jumpHeight -= jumpSpeed;
                 requestAnimationFrame(jump);
             } else {
-                // Caída
                 const fall = () => {
                     if (charlie.y < initialY) {
                         charlie.y += jumpSpeed;
